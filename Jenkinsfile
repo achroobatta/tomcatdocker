@@ -17,8 +17,7 @@ pipeline {
                 sh "pwd"
                 sh "ls -lrt"
                 sh "echo ${env.BUILD_ID}"
-                sh "docker build . -t tomcatdockerwebapp:${env.BUILD_ID}"
-                sh "ls -lrt /usr/local/tomcat/webapps"
+                sh "docker build . -t tomcatdockerwebapp:${env.BUILD_ID}"                
             }
             
         }
