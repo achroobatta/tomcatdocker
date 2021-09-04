@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build Application') {
             steps {
-                sh 'mvn -f java-tomcat-sample/pom.xml clean package'
+                sh 'mvn -f pom.xml clean package'
             }
             post {
                 success {
@@ -12,19 +12,16 @@ pipeline {
                 }
             }
         }
-        stage('Deploy in Staging Environment'){
+        stage('Create docker build'){
             steps{
-                build job: 'Deploy_Application_staging_environment'
+                sh 'docker build . -t tomcatdockerwebapp:${env.BUILD_ID}'
 
             }
             
         }
-        stage('Deploy to Production'){
+        stage('Run container in environment'){
             steps{
-                timeout(time:5, unit:'DAYS'){
-                    input message:'Approve PRODUCTION Deployment?'
-                }
-                build job: 'Deploy_Application_Prod'
+                 sh 'docker run tomcatdockerwebapp:${env.BUILD_ID} -p 8090:8080'
             }
         }
     }
