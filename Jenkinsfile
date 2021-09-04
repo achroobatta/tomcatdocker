@@ -24,7 +24,7 @@ pipeline {
         }
         stage('Run container in environment'){
             steps{
-                 sh "docker run tomcatdockerwebapp:${env.BUILD_ID} -p 8090:8080"
+                 sh "docker run -d -p 8090:8080 tomcatdockerwebapp:${env.BUILD_ID}"
             }
         }
     }
